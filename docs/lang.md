@@ -1,7 +1,11 @@
 ## Choose your language | Выберите язык
 
 <h3>
-(./en/funcs.md)[English] <br>
+  
+[English](./en/funcs.md) 
+
 <br>
-(./ru/funcs.md)[Русский]
+
+[Русский](./ru/funcs.md)
+
 </h3>
