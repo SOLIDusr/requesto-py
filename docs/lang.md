@@ -2,10 +2,10 @@
 
 <h3>
   
-[English](./en/funcs.md) 
+[English](./en/welcome.md) 
 
 <br>
 
-[Русский](./ru/funcs.md)
+[Русский](./ru/welcome.md)
 
 </h3>
