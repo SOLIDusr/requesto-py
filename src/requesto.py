@@ -1,5 +1,3 @@
-import traceback
-import psycopg2
 import psycopg2 as pg
 import sqlite3 as sqlt
 
