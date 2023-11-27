@@ -35,7 +35,7 @@ Let's go through the code step by step:
 sqliteConnection(ifMemory = True)
 ```
 * 4-12. We are trying to create a Table object. If there is no table - creating it.
-* 1З. We insert a row into the table by values using the function [`Table.insert()`](./manuals.md/#Table.insert)
+* 1З. We insert a row into the table by values using the function [`Database.Table.insert()`](./manuals.md/#Table.insert)
 * 14\. Turn off autocommit with the function [`DataBase.Connection.autocommit(False)`](./manuals.md/#DataBase.Connection.autocommit())
-* 15\. We display all rows where the age is greater than 20 using the function [`Table.returnAll`](./manuals.md/#Table.returnAll)
+* 15\. We display all rows where the age is greater than 20 using the function [`Database.Table.returnAll`](./manuals.md/#Table.returnAll)
 * 16\. Close the connection with the function [`Database.Connection.close()`](./manuals.md/#Database.Connection.close())

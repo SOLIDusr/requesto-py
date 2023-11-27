@@ -35,7 +35,7 @@ dataBase.connection.close()
 sqliteConnection(ifMemory=True)
 ```
 * 4-12. Пытаемся создать объект таблицы. В случае, если таблицы нет - создаём её.
-* 1З. Вставляем в таблицу строку по значениям функцией [`Table.insert()`](./manuals.md/#Table.insert)
+* 1З. Вставляем в таблицу строку по значениям функцией [`Database.Table.insert()`](./manuals.md/#Table.insert)
 * 14\. Выключаем autocommit функцией [`DataBase.Connection.autocommit(False)`](./manuals.md/#DataBase.Connection.autocommit())
-* 15\. Выводим все строки, где возраст больше 20 функцией [`Table.returnAll`](./manuals.md/#Table.returnAll)
+* 15\. Выводим все строки, где возраст больше 20 функцией [`Database.Table.returnAll`](./manuals.md/#Table.returnAll)
 * 16\. Закрываем connection функцией [`Database.Connection.close()`](./manuals.md/#Database.Connection.close())
