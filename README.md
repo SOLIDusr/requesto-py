@@ -1,5 +1,5 @@
 # requesto-py
-Lightweight python ORM library for using postgresql and sqlite databases without tons of useless code. 
+Lightweight python wrapper library for psycopg2 and sqlite3 databases without tons of useless code. 
 
 
 ![GitHub top language](https://img.shields.io/github/languages/top/SolidUsr/requesto-py)
