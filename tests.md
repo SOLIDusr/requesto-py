@@ -1,0 +1,5 @@
+- [ ] Have I tested realistic combinations of my code's input parameters?
+- [ ] Have I tested any discrete outputs once?
+- [ ] Have I tested the boundaries of non-discrete outputs?
+- [ ] Are informative errors raised when the code is not used in a valid or correct way?
+- [ ] Are informative warnings raised when the code is not used in a standard way?
