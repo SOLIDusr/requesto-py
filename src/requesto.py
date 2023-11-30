@@ -116,8 +116,8 @@ class DataBase:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return []
-            
-            except not DataBase.WrongParamError and AttributeError:
+
+            except pgerr.UndefinedTable or pgerr.UndefinedColumn:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return []
@@ -148,8 +148,12 @@ class DataBase:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return []
+            except pgerr.UndefinedTable or pgerr.UndefinedColumn:
+                trace = traceback.format_exc()
+                warnings.warn(trace)
+                return []
 
-        def fetchOne(self, param: str | None = None, params: str | None = None) -> tuple:
+        def fetchOne(self, param: str | None = None, params: str | None = None) -> tuple    :
             try:
                 if param is None and params is None:
                     self.__cursor.execute(f"""SELECT * FROM {self.__name}""")
@@ -170,19 +174,19 @@ class DataBase:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return ()
+            except pgerr.UndefinedTable or pgerr.UndefinedColumn:
+                trace = traceback.format_exc()
+                warnings.warn(trace)
+                return ()
 
         def insert(self, params: str | None = None, values: str | None = None) -> bool:
             try:
                 assert params is not None
                 assert values is not None
-                request = f"""INSERT INTO {self.__name} ({params}) VALUES {values}"""
+                request = f"""INSERT INTO {self.__name} ({params}) VALUES ({values})"""
                 self.__cursor.execute(request)
                 return True
             except pgerr.UniqueViolation as UV:
-                trace = traceback.format_exc()
-                warnings.warn(trace)
-                return False
-            except not pgerr.UniqueViolation as NUV:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
