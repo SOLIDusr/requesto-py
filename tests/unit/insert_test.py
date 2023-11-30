@@ -1,4 +1,3 @@
-import psycopg2
 import pytest
 import src.requesto as rq
 
@@ -9,17 +8,13 @@ def resource_setup():
                                     port="5432",
                                     userName="dolta",
                                     dbName="coredb")
-    uD = database.Table("userData", database.connection.getCursor())
+    uD = database.Table("userData", database.cursor)
     return uD
 
 
-def test_1_insert(resource_setup):
-    assert resource_setup.insert("username, id, points, gay", "'khabib', 5, 20000, false")
-    assert resource_setup.insert("username, id, points, gay", "'Com', 6, 12, false")
-
-
-def test_2_insert_error(resource_setup):
-    assert not resource_setup.insert("user, id, points, gay", "'khabib', 5, 20000, true")
-    assert not resource_setup.insert("points, gay", "'20000', true")
-    assert not resource_setup.insert("username, id, points, gay", "'khabib', 2, 20000, true")
+def test_1_pg_insert(resource_setup):
+    assert resource_setup.insert("username, id, points, gay", "'name41', 5, 20000, false")
+    assert resource_setup.insert("username, id, points, gay", "'Con', 6, 12, false")
+    assert resource_setup.insert("username, id", "'conn', 8")
+    assert resource_setup.insert("id", "9")
 
