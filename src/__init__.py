@@ -13,4 +13,5 @@ def connectionTest():
             " App will continue to run without connection, but some functions may be missing.",
         )
 
+
 connectionTest()
