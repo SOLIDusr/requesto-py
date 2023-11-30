@@ -13,12 +13,14 @@ dataBase: rq.dataBase = rq.sqliteConnection(dbname="database.db")
 try:
     userData: rq.Table = rq.Table("userData", dataBase.cursor)
 except sqlite3.OperationalError:
-    userData: rq.Table = rq.createTable("userData", {
-        "id": "pk",
-        "name": "str",
-        "ifPresent": "bool",
-        "age": "int"
-    })
+    pass
+    #  In development
+    # userData: rq.Table = rq.createTable("userData", {
+    #     "id": "pk",
+    #     "name": "str",
+    #     "ifPresent": "bool",
+    #     "age": "int"
+    # })
 
 userData.insert("name, ifPresent", "age", "'John', true, 21")
 #  Autocommit по умолчанию включен. Исправим это!

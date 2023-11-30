@@ -6,7 +6,7 @@ import psycopg2.errors as pgerr
 
 
 class DataBase:
-    def __init__(self, connection, dbtype: str = None):
+    def __init__(self, connection):
         self.connection: DataBase.Connection = DataBase.Connection(connection)
         self.cursor: pg.cursor | sqlt.Cursor = self.connection.__getCursor__()
         # self.dbtype = dbtype
@@ -107,12 +107,12 @@ class DataBase:
                 else:
                     raise DataBase.WrongParamError
                 return self.__cursor.fetchall()
-            except AttributeError as AE:
+            except AttributeError:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return []
 
-            except DataBase.WrongParamError as WPE:
+            except DataBase.WrongParamError:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return []
@@ -136,11 +136,11 @@ class DataBase:
                 else:
                     raise DataBase.WrongParamError
                 return self.__cursor.fetchmany(size)
-            except AttributeError as AE:
+            except AttributeError:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return []
-            except DataBase.WrongParamError as WPE:
+            except DataBase.WrongParamError:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return []
@@ -166,11 +166,11 @@ class DataBase:
                 else:
                     raise DataBase.WrongParamError
                 return self.__cursor.fetchone()
-            except AttributeError as AE:
+            except AttributeError:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return ()
-            except DataBase.WrongParamError as WPE:
+            except DataBase.WrongParamError:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return ()
@@ -186,7 +186,7 @@ class DataBase:
                 request = f"""INSERT INTO {self.__name} ({params}) VALUES ({values})"""
                 self.__cursor.execute(request)
                 return True
-            except pgerr.UniqueViolation as UV:
+            except pgerr.UniqueViolation:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
@@ -219,6 +219,7 @@ class DataBase:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
+
     class WrongParamError(Exception):
         pass
 
@@ -233,19 +234,19 @@ def postgresqlConnect(host, port, dbName, userName) -> DataBase:
         database=dbName,
         port=port)
 
-    db = DataBase(connection, "psql")
+    db = DataBase(connection)
     return db
 
 
 def sqliteConnection(ifMemory: bool = False, filename: str = None) -> DataBase:
     if filename is not None:
         connection = sqlt.connect(f"{filename}")
-        db = DataBase(connection, "sqlite3")
+        db = DataBase(connection)
         return db
 
     elif ifMemory:
         connection = sqlt.connect(":memory:")
-        db = DataBase(connection, "sqlite3")
+        db = DataBase(connection)
         return db
 
     else:
