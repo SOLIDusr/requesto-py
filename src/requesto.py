@@ -8,7 +8,7 @@ import psycopg2.errors as pgerr
 class DataBase:
     def __init__(self, connection, dbtype: str = None):
         self.connection: DataBase.Connection = DataBase.Connection(connection)
-        self.cursor: pg.cursor | sqlt.Cursor = self.connection.getCursor()
+        self.cursor: pg.cursor | sqlt.Cursor = self.connection.__getCursor__()
         # self.dbtype = dbtype
 
     # def createTable(self, name: str | None = None, columns: dict | None = None):
@@ -74,7 +74,7 @@ class DataBase:
         def isClosed(self) -> int:
             return self.connection.closed
 
-        def getCursor(self):
+        def __getCursor__(self):
             return self.connection.cursor()
 
         def getAutocommit(self):
@@ -153,7 +153,7 @@ class DataBase:
                 warnings.warn(trace)
                 return []
 
-        def fetchOne(self, param: str | None = None, params: str | None = None) -> tuple    :
+        def fetchOne(self, param: str | None = None, params: str | None = None) -> tuple:
             try:
                 if param is None and params is None:
                     self.__cursor.execute(f"""SELECT * FROM {self.__name}""")
@@ -198,7 +198,11 @@ class DataBase:
                     request = f"""UPDATE {self.__name} SET ({params}) = ({values})"""
                 else:
                     request = f"""UPDATE {self.__name} SET ({params}) = ({values}) WHERE {where}"""
+                if params.count(",") == 0:
+                    request = request.replace("(", "")
+                    request = request.replace(")", "")
                 self.__cursor.execute(request)
+                return True
             except AssertionError:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
@@ -207,7 +211,14 @@ class DataBase:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
-
+            except pgerr.UniqueViolation:
+                trace = traceback.format_exc()
+                warnings.warn(trace)
+                return False
+            except Exception:
+                trace = traceback.format_exc()
+                warnings.warn(trace)
+                return False
     class WrongParamError(Exception):
         pass
 
