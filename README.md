@@ -8,12 +8,11 @@ Lightweight python wrapper library for psycopg2 and sqlite3 databases without to
 ![GitHub issues](https://img.shields.io/github/issues/SolidUsr/requesto-py)
 
 
-## Ways of Instalation (Linux/Windows)
+## Ways of Installation (Linux/Windows)
 
-Before instalation make sure to install all dependencies! No-dependencies branch [\*click\*](https://github.com/SOLIDusr/requesto-py/tree/no-dependencies) coming soon!
+Before installation make sure to install all dependencies! No-dependencies branch [\*click\*](https://github.com/SOLIDusr/requesto-py/tree/no-dependencies) coming soon!
 
 1. Clone repo 
-
 ```git clone https://github.com/SOLIDusr/requesto-py.git```
 
 2. ```pip3 install requesto-py``` coming soon!
@@ -25,11 +24,11 @@ You can check docs [\*here\*](./docs/lang.md).
 [Realeses]: https://github.com/SolidUsr/requesto-py/releases
 
 ## Support
-You can create new issue if you have questions or you found a bug
-[\*create\*](https://github.com/SolidUsr/requesto-py/issues/new/choose) or just message me here <reply.naromori@gmail.com> using requesto-py as a email topic.
+You can create new issue if you have questions, or you found a bug
+[\*create\*](https://github.com/SolidUsr/requesto-py/issues/new/choose) or just message me here <reply.naromori@gmail.com> using requesto-py as an email topic.
 
 ## Dependencies 
-This library currently in testing stage and can be broken somewhere (Tested on python 3.10 and pip 23.3.1). If you found out that this works in versions below stated or doesn't work by any chance or reason - message me here!
+This library currently in testing stage and can be broken somewhere (Tested on python 3.10 and pip 23.3.1). If you found out that this works in versions below stated or doesn't work by any chance or reason - message me
 [Here!](https://github.com/SolidUsr/requesto-py#support)
 
 ## Commit tags
