@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "requesto-py"
+version = "1.0.0"
+authors = [
+  { name="NaroMori", email="reply.naromori@google.com" },
+]
+description = "Lightweight python wrapper library for psycopg2 and sqlite3 databases without tons of useless code."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/SOLIDusr/requesto-py"
+Issues = "https://github.com/SOLIDusr/requesto-py/issues"
