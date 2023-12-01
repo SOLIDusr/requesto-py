@@ -15,7 +15,7 @@ Before installation make sure to install all dependencies! No-dependencies branc
 1. Clone repo 
 ```git clone https://github.com/SOLIDusr/requesto-py.git```
 
-2. ```pip3 install requesto-py``` coming soon!
+2. ```pip install requesto-py```
 
    
 ## Docs
