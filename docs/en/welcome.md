@@ -15,25 +15,23 @@ Documentation is current for the version: `1.0.0-pre-alpha`
 ## Getting started
 
 ### **First steps**: [**Introduction**](./start.md) | [**Quickstart**](./quickstart.md)
-### **Work with databases**: [**PostgreSQL**](./psql.md) | [**sqlite 3**](./sqlite.md)
-### **Examples**: [**Examples of use**](./example.md)
+
 
 ---
 
 ## Getting help
 
 **<p>If you're having trouble with something, these resources might help.</p>**
-* **Try to find solution in ** [**Frequently asked questions**](./faq)
+* **Try to find solution in ** [**Frequently asked questions**](./faq.md)
 * **In case of specific question** [**check out our detailed documentation**](./manuals.md)
 * **Ask it in our GitHub discussion page** [**github**](https://github.com/SOLIDusr/requesto-py/issues/new)
 * **Report bugs and issues in** [**issue tracker**](https://github.com/SOLIDusr/requesto-py/issues/new)
 
 ---
 
-## Инструкции
-**<p>Страницы с описанием действия различных частей библиотеки</p>**
-* [**\_\_init\_\_.py**](__init__.md)
-* [**requesto.py**](requesto.md)
+## Instructions
+**<p>Pages with explanation of different parts of the library</p>**
+* [**requesto.py**](manuals.md)
 
 
 ---
