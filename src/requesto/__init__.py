@@ -14,7 +14,7 @@ __title__ = 'requesto'
 __author__ = 'SOLIDusr'
 __license__ = 'GNU'
 __copyright__ = 'Copyright 2023-present SOLIDusr'
-__version__ = '1.0.0'
+__version__ = '1.0.0-rc'
 
 import logging
 import psycopg2
