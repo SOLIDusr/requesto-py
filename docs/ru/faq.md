@@ -19,7 +19,7 @@
 но сейчас для этого используется одна из функций [`rq.sqliteConnection()`](manuals.md/#sqliteConnection)
 или [`rq.postgresqlConnection()`](manuals.md/#postgresqlConnection)
 ```python
-import requesto.requesto as rq
+import requesto as rq
 database = rq.postgresqlConnect(host="host",
                        port="port",
                        dbName="dbname",
@@ -27,7 +27,7 @@ database = rq.postgresqlConnect(host="host",
 ```
 Или 
 ```python
-import requesto.requesto as rq
+import requesto as rq
 database = rq.sqliteConnection(filename="database.db")
 ```
 ---

@@ -21,7 +21,7 @@ dataBase.connection.close()
 * 1-2. Просто импортируем библиотеки sqlite3 и requesto
 * 3\. Задаем переменной dataBase тип базы данных и используем функцию [`sqliteConnection()`](./manuals.md/#sqliteConnection()).  Для того чтобы запустить базу данных в режиме временной памяти:
 ```python
-import requesto.requesto as rq
+import requesto as rq
 rq.sqliteConnection(ifMemory=True)
 ```
 * 4-12. Пытаемся создать объект таблицы. В случае, если таблицы нет - создаём её.
