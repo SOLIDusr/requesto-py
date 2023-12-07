@@ -77,7 +77,6 @@ class DataBase:
             """
             self.connection.reset()
 
-
         def isClosed(self) -> int:
             """
             returns cursor object
@@ -168,9 +167,9 @@ class DataBase:
                 elif param is not None and where is None:
                     self.__cursor.execute(f"""SELECT {param} FROM {self.__name}""")
                 elif param is None and where is not None:
-                    self.__cursor.execute(f"""SELECT * FROM {self.__name} WHERE """ + params)
+                    self.__cursor.execute(f"""SELECT * FROM {self.__name} WHERE """ + where)
                 elif param is not None and where is not None:
-                    self.__cursor.execute(f"""SELECT {param} FROM {self.__name} WHERE """ + params)
+                    self.__cursor.execute(f"""SELECT {param} FROM {self.__name} WHERE """ + where)
                 else:
                     raise DataBase.WrongParamError
                 return self.__cursor.fetchmany(size)
@@ -300,7 +299,7 @@ def postgresqlConnect(host, port, dbName, userName) -> DataBase:
     return db
 
 
-def sqliteConnection(ifMemory: bool = False, filename: str = None) -> DataBase | DataBase.WrongParamError:
+def sqliteConnect(ifMemory: bool = False, filename: str = None) -> DataBase | DataBase.WrongParamError:
     """Initializes database object
 
     This function returns the :class:`DataBase`
