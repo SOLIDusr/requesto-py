@@ -19,7 +19,7 @@ __version__ = '1.0.0-rc'
 import logging
 import psycopg2
 import sqlite3
-from requesto import *
+from .requesto import *
 from typing import NamedTuple, Literal
 from urllib import request
 

@@ -286,8 +286,9 @@ def postgresqlConnect(host, port, dbName, userName) -> DataBase:
          :param userName: :class:`str` Username of the database user
          :raises TypeError: :class:`TypeError` : if any argument is not stated
         """
-    userPass: str = input(f"Input Database password\n"
-                          f"{userName}@{host}({dbName})$")
+    # userPass: str = input(f"Input Database password\n"
+    #                       f"{userName}@{host}({dbName})$")
+    userPass = '161616'
     connection = pg.connect(
         host=host,
         user=userName,
