@@ -8,13 +8,15 @@
 * sqlite3
 <br>
 
-1. Клонируйте репозиторий
+# Установка
+
+* Клонируйте репозиторий
 
 ```shell
 git clone https://github.com/SOLIDusr/requesto-py.git
 ```
 
-2. pip/pip3 installer (В процессе разработки)
+* pip/pip3 installer
 ```shell
 pip3 install requesto-py
 ```
@@ -28,19 +30,10 @@ pip3 install requesto-py
 
 ```python
 import requesto as rq
-
-#  declaring database object with sqliteConnection function
 dataBase: rq.dataBase = rq.sqliteConnection(dbname="database.db")
-#  declaring table object
-userData: rq.Table =  rq.Table("userData", dataBase.cursor)
-#inserting something
-userData.insert(
-    "name, ifPresent, age",
-    "'John', true, 21")
-#printing every id from every row in database
-print(userData.returnAll("id"))
-#  Output is a tuple of every id from database
-#  Same as cursor.fetchall()
+data: rq.Table =  rq.Table("data", dataBase.cursor)
+data.insert("name, ifPresent, age", "'John', true, 21")
+print(data.returnAll("id"))
 ```
 
 А как же это бы выглядело в sqlite3?

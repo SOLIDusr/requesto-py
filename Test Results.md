@@ -1,6 +1,8 @@
 
-<h3>✅ Test Result 2023-11-30  9:26 PM UTC+3</h3>
-</h3>
+<h3>✅ Test Result 2023-12-7, 5:01 PM UTC+3</h3>
+
+<h3> Project Version: v1.0.0-rc </h3>
+
 
 <table>
 <p><strong>Git:</strong> <code>https://github.com/SOLIDusr/requesto-py</code></p>
@@ -17,12 +19,12 @@
   <td>10(21)</td>
   <td>10(21)</td>
   <td>0</td>
-  <td>0s 144ms</td>
+  <td>0s 70ms</td>
 </tr>
 </table>
 
 ### Testing OS: Windows 10 / Linux Mint 21.2 Victoria <br>
-### Python version: 3.10.* <br>
+### Python version: ^3.10.* <br>
 ### pytest-7.4.3 <br> 
 ### pluggy-1.3.0 <br>
 

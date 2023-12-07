@@ -17,8 +17,8 @@ def test_1_pg_table(resource_setup):
 
 
 def test_2_sqlt_table(resource_setup):
-    assert rq.sqliteConnection(ifMemory=True)
-    assert rq.sqliteConnection(filename="")
+    assert rq.sqliteConnect(ifMemory=True)
+    assert rq.sqliteConnect(filename="")
 
 
 

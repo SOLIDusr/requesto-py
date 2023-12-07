@@ -10,23 +10,10 @@ import sqlite3
 import requesto as rq
 
 dataBase: rq.dataBase = rq.sqliteConnection(dbname="database.db")
-try:
-    userData: rq.Table = rq.Table("userData", dataBase.cursor)
-except sqlite3.OperationalError:
-    pass
-    #  Ведутся работы
-    # userData: rq.Table = rq.createTable("userData", {
-    #     "id": "pk",
-    #     "name": "str",
-    #     "ifPresent": "bool",
-    #     "age": "int"
-    # })
+userData: rq.Table = rq.Table("userData", dataBase.cursor)
 
 userData.insert("name, ifPresent", "age", "'John', true, 21")
-#  Autocommit по умолчанию включен. Исправим это!
 dataBase.connection.autocommit(False)
-#  Выведем в консоль имена всех, чей возрат больше 20
-
 print(userData.returnAll("name", "age > 20"))
 dataBase.connection.close()
 ```
@@ -34,7 +21,8 @@ dataBase.connection.close()
 * 1-2. Просто импортируем библиотеки sqlite3 и requesto
 * 3\. Задаем переменной dataBase тип базы данных и используем функцию [`sqliteConnection()`](./manuals.md/#sqliteConnection()).  Для того чтобы запустить базу данных в режиме временной памяти:
 ```python
-sqliteConnection(ifMemory=True)
+import requesto as rq
+rq.sqliteConnection(ifMemory=True)
 ```
 * 4-12. Пытаемся создать объект таблицы. В случае, если таблицы нет - создаём её.
 * 1З. Вставляем в таблицу строку по значениям функцией [`Database.Table.insert()`](./manuals.md/#Table.insert)
