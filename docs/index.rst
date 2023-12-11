@@ -6,16 +6,85 @@
 Welcome to requesto-py's documentation!
 =======================================
 
+<<<<<<< Updated upstream
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+=======
+.. raw:: html
+
+   <h3>
+
+Features:
+
+.. raw:: html
+
+   </h3>
+
+
+* High speed of the program due to optimized code
+* Ease of use due to a reorientation database for OOP programming
+* Unique system of objects due to algorithm of reading tables of database
+* Good for open-source and small projects
+* Open-source
+
+Getting started
+------------
+
+* **First steps**: `Introduction <./start.html>`__ | `Introduction <./start.html>`__
+
+Getting help
+------------
+>>>>>>> Stashed changes
 
 
 
 Indices and tables
 ==================
 
+<<<<<<< Updated upstream
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`index`
 * :ref:`search`
+=======
+   <p>
+
+.. raw:: html
+
+ <b>
+If you're having trouble with something, these resources might help.
+
+.. raw:: html
+
+ </b>
+.. raw:: html
+
+   </p>
+
+
+* **Try to find solution in** `Frequently asked questions <./faq.html>`__
+* **In case of specific question** `check out our detailed documentation <./manuals.md>`__
+* **Ask it in our GitHub discussion page** `github <https://github.com/SOLIDusr/requesto-py/issues/new>`__
+* **Report bugs and issues in** `issue tracker <https://github.com/SOLIDusr/requesto-py/issues/new>`__
+
+Instructions
+------------
+
+.. raw:: html
+
+   <p>
+
+Pages with explanation of different parts of the library
+
+.. raw:: html
+
+   </p>
+
+* `manuals <manuals.md>`__
+
+Extra
+-----
+
+Nothing here yet ;)
+>>>>>>> Stashed changes
