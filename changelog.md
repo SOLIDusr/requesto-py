@@ -5,7 +5,7 @@
 1. Docs adaptation for readthedocs.io
 2. Some fixes
 3. Added new features
-4. I\'m bored of typing - check commit! **[[eee]](https://github.com)**
+4. I\'m bored of typing - check commit! **[[ab8532b]](https://github.com/SOLIDusr/requesto-py/commit/ab8532bb9c4a0ed883dcab75b7459e788634c4a1)**
 
 
 ### `v1.0.0-b`
