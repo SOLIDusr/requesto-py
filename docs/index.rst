@@ -6,11 +6,7 @@
 Welcome to requesto-py's documentation!
 =======================================
 
-<<<<<<< Updated upstream
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-=======
+
 .. raw:: html
 
    <h3>
@@ -33,22 +29,9 @@ Getting started
 
 * **First steps**: `Introduction <./start.html>`__ | `Introduction <./start.html>`__
 
-Getting help
-------------
->>>>>>> Stashed changes
-
-
 
 Indices and tables
-==================
-
-<<<<<<< Updated upstream
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`index`
-* :ref:`search`
-=======
-   <p>
+=================
 
 .. raw:: html
 
@@ -87,4 +70,3 @@ Extra
 -----
 
 Nothing here yet ;)
->>>>>>> Stashed changes

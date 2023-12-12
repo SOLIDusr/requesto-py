@@ -32,8 +32,8 @@ requesto
 
 Методы:
 
--  ```def`` ``postgresqlConnect`` <#postgresqlConnect>`__
--  ```def`` ``sqliteConnect`` <#sqliteConnect>`__
+-  `def postgresqlConnect <#postgresqlConnect>`__
+-  `def sqliteConnect <#sqliteConnect>`__
 
 DataBase
 --------
@@ -42,48 +42,50 @@ DataBase
 
 ``class requesto.DataBase(connection)``
 
--  ```class`` ``Connection`` <#Connection>`__
--  ```class`` ``Table`` <#Table>`__
--  ```class`` ``WrongParamError`` <#WrongParamError>`__
--  ```Attribute`` ``connection: DataBase.Connection`` <#connection>`__
--  ```Attribute``
-   ``cursor: psycopg2.cursor | sqlite3.Cursor`` <#cursor>`__
+-  class `Connection <#Connection>`__
+-  class `Table <#Table>`__
+-  class `WrongParamError <#WrongParamError>`__
+-  Attribute `connection: DataBase.Connection <#connection>`__
+-  Attribute `cursor: psycopg2.cursor | sqlite3.Cursor <#cursor>`__
 
 Connection
 ----------
 
 --------------
 
--  ```def`` ``autocommit`` <#autocommit>`__
--  ```def`` ``close`` <#close>`__
--  ```def`` ``commit`` <#commit>`__
--  ```def`` ``reset`` <#reset>`__
--  ```def`` ``isClosed`` <#isClosed>`__
--  ```def`` ``__getCursor__`` <#__getCursor__>`__
--  ```def`` ``getAutocommit`` <#getAutocommit>`__
--  ```def`` ``cancel`` <#cancel>`__
--  ```def`` ``getTransactionStatus`` <#getTransactionStatus>`__
+-  def `autocommit <#autocommit>`__
+-  def `close <#close>`__
+-  def `commit <#commit>`__
+-  def `reset <#reset>`__
+-  def `isClosed <#isClosed>`__
+-  def `__getCursor__ <#getCursor>`__
+-  def `getAutocommit <#getAutocommit>`__
+-  def `cancel <#cancel>`__
+-  def `getTransactionStatus <#getTransactionStatus>`__
 
 Table
 -----
 
 --------------
 
--  ```def`` ``fetchAll`` <#fetchAll>`__
--  ```def`` ``fetchMany`` <#fetchMany>`__
--  ```def`` ``fetchOne`` <#fetchOne>`__
--  ```def`` ``insert`` <#insert>`__
--  ```def`` ``update`` <#update>`__
+-  def `fetchAll <#fetchAll>`__
+-  def `fetchMany <#fetchMany>`__
+-  def `fetchOne <#fetchOne>`__
+-  def `insert <#insert>`__
+-  def `update <#update>`__
+
 
 ``def postgresqlConnect(host, port, dbName, userName) -> DataBase``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Возвращает объект базы данных ``requesto.DataBase``
 
-Параметры: \* host( str ) ( Обязательно ) - Хост сервера базы данных \*
-port( str ) ( Обязательно ) - Порт сервера базы данных \* dbName( str )
-( Обязательно ) - Название базы данных \* userName( str ) ( Обязательно
-) - Имя пользователя базы данных
+Параметры:
+
+* host( str ) ( Обязательно ) - Хост сервера базы данных
+* port( str ) ( Обязательно ) - Порт сервера базы данных
+* dbName( str ) ( Обязательно ) - Название базы данных
+* userName( str ) ( Обязательно) - Имя пользователя базы данных
 
 ``def sqliteConnect(ifMemory = False, filename = None) -> DataBase | DataBase.WrongParamError``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
