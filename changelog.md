@@ -1,6 +1,14 @@
 # Changelog
 
-### `v1.0.0-Beta`
+### `v1.0.0-r
+
+1. Docs adaptation for readthedocs.io
+2. Some fixes
+3. Added new features
+4. I\'m bored of typing - check commit! **[[eee]](https://github.com)**
+
+
+### `v1.0.0-b`
 
 1. Added changelog
 2. Removed unused imports. **[[e87c34f]](https://github.com/SOLIDusr/requesto-py/commit/e87c34feec0d97c900b6f7eb91bec1b2381f98d6)**
