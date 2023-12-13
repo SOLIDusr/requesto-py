@@ -14,7 +14,7 @@ __title__ = 'requesto'
 __author__ = 'SOLIDusr'
 __license__ = 'GNU'
 __copyright__ = 'Copyright 2023-present SOLIDusr'
-__version__ = '1.0.0-r3'
+__version__ = '1.0.0-r4'
 
 import logging
 import psycopg2
@@ -28,10 +28,11 @@ class VersionInfo(NamedTuple):
     major: int
     minor: int
     micro: int
+    hotfix: int
     releaselevel: Literal["alpha", "beta", "candidate", "final"]
 
 
-version_info: VersionInfo = VersionInfo(major=1, minor=0, micro=0, releaselevel='final')
+version_info: VersionInfo = VersionInfo(major=1, minor=0, micro=0, hotfix=4, releaselevel='final')
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
