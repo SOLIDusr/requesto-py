@@ -118,6 +118,14 @@ class DataBase:
             self.__cursor: pg.cursor | sqlt.Cursor = cursor
             self.__name = name
 
+        def query(self, request: str = None):
+            """
+            execute custom query
+            :param request: :class:`str` - provided request to proceed
+            """
+            assert request is not None
+            self.__cursor.execute(f"""{request}""")
+
         def fetchAll(self, param: str = None, where: str = None) -> list:
             """
             Fetches information from the table by specific conditions
