@@ -28,10 +28,17 @@ class DataBase:
     """
     DataBase class [:class:`.DataBase`]: Represents the database object.
     """
+
     def __init__(self, connection):
         self.connection: DataBase.Connection = DataBase.Connection(connection)
         self.cursor: pg.cursor | sqlt.Cursor = self.connection.__getCursor__()
         # self.dbtype = dbtype
+
+
+    def getTables(self) -> list:
+        self.cursor.execute(f"""SELECT table_name FROM information_schema.tables
+               WHERE table_schema = '{self.schemaName}'""")
+        print(self.cursor.fetchall())
 
     class Connection:
 
@@ -105,7 +112,6 @@ class DataBase:
             """
             return self.connection.cancel()
 
-
         def getTransactionStatus(self):
             """
             returns transaction status. Basically **cursor.get_transaction.status()** func
@@ -114,9 +120,10 @@ class DataBase:
             return self.connection.get_transaction_status()
 
     class Table:
-        def __init__(self, name: str, cursor):
+        def __init__(self, name: str, cursor, schemaName: str = "public"):
             self.__cursor: pg.cursor | sqlt.Cursor = cursor
             self.__name = name
+            self.schemaName = schemaName
 
         def query(self, request: str = None):
             """
@@ -169,7 +176,7 @@ class DataBase:
             :param size: :class:`int` - size of a list to return (0 < size < 8**10)
             """
             try:
-                assert size is not None and 8**10 > size > 0
+                assert size is not None and 8 ** 10 > size > 0
                 if param is None and where is None:
                     self.__cursor.execute(f"""SELECT * FROM {self.__name}""")
                 elif param is not None and where is None:
@@ -245,7 +252,7 @@ class DataBase:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
-            
+
         def update(self, params: str | None = None, values: str | None = None, where: str | None = None) -> bool:
             """Updates given variables in the table with given values
             :param params: :class:`str` - given variables' names
