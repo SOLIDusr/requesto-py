@@ -1,10 +1,10 @@
 # Changelog
-### `v1.0.1-a`
+### `v1.1.0-a`
 
 1. Removed readthedocs.org as I exhausted of writing this in rts and convertors from md to rst are bad.
-2. On my way to add column/table recognition as it'll become the foundation of 1.1.0 update.
+2. On my way to add column/table recognition as it'll become the foundation of 2.0.0 update.
 3. Code refactoring and quality
-
+4. v1.1.0-b will be a testing version. No new changes will be made.
 
 ### `v1.0.0-r`
 
