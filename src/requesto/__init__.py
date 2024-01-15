@@ -14,7 +14,7 @@ __title__ = 'requesto'
 __author__ = 'SOLIDusr'
 __license__ = 'GNU'
 __copyright__ = 'Copyright 2023-present SOLIDusr'
-__version__ = '1.0.1-a'
+__version__ = '1.1.0-b'
 
 import logging
 from .requesto import *
@@ -30,14 +30,14 @@ class VersionInfo(NamedTuple):
     releaseLevel: Literal["alpha", "beta", "candidate", "final"]
 
 
-version_info: VersionInfo = VersionInfo(major=1, minor=0, micro=1, hotfix=0, releaseLevel='alpha')
+version_info: VersionInfo = VersionInfo(major=1, minor=1, micro=0, hotfix=0, releaseLevel='beta')
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 def connectionTest():
     try:
-        request.urlopen('https://google.com', timeout=1)
+        request.urlopen('https://google.com', timeout=5)
     except request.HTTPError:
         import warnings
 
