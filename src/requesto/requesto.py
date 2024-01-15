@@ -26,6 +26,12 @@ import sqlite3 as sqlt
 import traceback
 import warnings
 import psycopg2.errors as errors
+"""
+That is a horrible solution right there! Do not even do that in your code.
+That is just an unimaginable horror of a good programmer
+"""
+_cursor_ = pg._psycopg.cursor
+_connection_ = pg._psycopg.connection
 
 
 class DataBase:
@@ -35,7 +41,7 @@ class DataBase:
 
     def __init__(self, connection, schemaName: str = "public"):
         self.connection: DataBase.Connection = DataBase.Connection(connection)
-        self.cursor: pg.cursor | sqlt.Cursor = self.connection.__getCursor__()
+        self.cursor: _cursor_ | sqlt.Cursor = self.connection.__getCursor__()
         self.__schemaName: str = schemaName
         self.tables = self.__getTables()
 
@@ -45,18 +51,19 @@ class DataBase:
     def __getTables(self) -> list:
         self.cursor.execute(f"""SELECT table_name FROM information_schema.tables
                WHERE table_schema = '{self.__schemaName}'""")
-        listOfTables: list[DataBase.Table] = []
-        for tableName in self.cursor.fetchall()[0]:
-            if tableName == "":
-                pass
-            else:
-                listOfTables.append(self.Table(tableName, cursor=self.cursor))
+        # for tableName in self.cursor.fetchall()[0]:
+        #     if tableName == "":
+        #         pass
+        #     else:
+        #         listOfTables.append(self.Table(tableName, cursor=self.cursor))
+        listOfTables = [self.Table(tableName[0], self.cursor, self.__schemaName) for tableName in self.cursor.fetchall()
+                        if tableName != ""]
         return listOfTables
 
     class Connection:
 
         def __init__(self, connection):
-            self.connection: pg.connection | sqlt.Connection = connection
+            self.connection: _connection_ | sqlt.Connection = connection
 
         def autocommit(self, state: bool = True) -> bool:
             """
@@ -92,7 +99,7 @@ class DataBase:
 
         def reset(self):
             """
-            resets database. Represents cursor.reset function
+            resets database. Represents `cursor.reset` function
             :returns: :class:`None`
             """
             self.connection.reset()
@@ -143,10 +150,11 @@ class DataBase:
             return self.__schemaName + "@" + "database" + "@" + self.__name
 
         def __getRows(self):
-            # self.__cursor.execute(f"""select * from INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME where TABLE_NAME = '{self.__name}'""")
+            # self.__cursor.execute(f"""select * from INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME
+            # where TABLE_NAME = '{self.__name}'""")
             self.__cursor.execute(f"""Select * FROM {self.__name} LIMIT 0""")
-            colnames = [desc[0] for desc in self.__cursor.description]
-            return colnames
+            columnNames = [desc[0] for desc in self.__cursor.description]
+            return columnNames
 
         def query(self, request: str = None):
             """
@@ -156,7 +164,7 @@ class DataBase:
             assert request is not None
             self.__cursor.execute(f"""{request}""")
 
-        def paramsChech(self, param, where):
+        def paramsCheck(self, param, where):
             if param is None and where is None:
                 self.__cursor.execute(f"""SELECT * FROM {self.__name}""")
             elif param is not None and where is None:
@@ -173,10 +181,10 @@ class DataBase:
             Fetches information from the table by specific conditions
             Represents cursor.fetchall() function
             :param param: :class:`str` - given variables' names
-            :param where: :class:`str` - condition of inserting. Example:('id = 5')
+            :param where: :class:`str` - condition of inserting. Example:`('id = 5')`
             """
             try:
-                self.paramsChech(param, where)
+                self.paramsCheck(param, where)
                 return self.__cursor.fetchall()
             except AttributeError:
                 trace = traceback.format_exc()
@@ -198,12 +206,12 @@ class DataBase:
             Fetches information from the table by specific conditions
             Represents cursor.fetchmany() function
             :param param: :class:`str` - given variables' names
-            :param where: :class:`str` - condition of inserting. Example:('id = 5')
+            :param where: :class:`str` - condition of inserting. Example:`('id = 5')`
             :param size: :class:`int` - size of a list to return (0 < size < 8**10)
             """
             try:
                 assert size is not None and 8 ** 10 > size > 0
-                self.paramsChech(param, where)
+                self.paramsCheck(param, where)
                 return self.__cursor.fetchmany(size)
             except AttributeError:
                 trace = traceback.format_exc()
@@ -227,10 +235,10 @@ class DataBase:
             Fetches information from the table by specific conditions
             Represents cursor.fetchone() function
             :param param: :class:`str` - given variables' names
-            :param where: :class:`str` - condition of inserting. Example:('id = 5')
+            :param where: :class:`str` - condition of inserting. Example:`('id = 5')`
             """
             try:
-                self.paramsChech(param, where)
+                self.paramsCheck(param, where)
                 return self.__cursor.fetchone()
             except AttributeError:
                 trace = traceback.format_exc()
@@ -265,7 +273,7 @@ class DataBase:
             """Updates given variables in the table with given values
             :param params: :class:`str` - given variables' names
             :param values: :class:`str` - values
-            :param where: :class:`str` - condition of inserting. Example:('id = 5')
+            :param where: :class:`str` - condition of inserting. Example:`('id = 5')`
             """
             try:
                 assert params is not None and values is not None
@@ -287,10 +295,6 @@ class DataBase:
                 warnings.warn(trace)
                 return False
             except errors.UniqueViolation:
-                trace = traceback.format_exc()
-                warnings.warn(trace)
-                return False
-            except Exception:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
