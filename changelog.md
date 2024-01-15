@@ -1,11 +1,17 @@
 # Changelog
+### `v1.0.1-a`
 
-### `v1.0.0-r
+1. Removed readthedocs.org as I exhausted of writing this in rts and convertors from md to rst are bad.
+2. On my way to add column/table recognition as it'll become the foundation of 1.1.0 update.
+3. Code refactoring and quality
+
+
+### `v1.0.0-r`
 
 1. Docs adaptation for readthedocs.io
 2. Some fixes
 3. Added new features
-4. I\'m bored of typing - check commit! **[[ab8532b]](https://github.com/SOLIDusr/requesto-py/commit/ab8532bb9c4a0ed883dcab75b7459e788634c4a1)**
+4. I\'m bored with typing - check commit! **[[ab8532b]](https://github.com/SOLIDusr/requesto-py/commit/ab8532bb9c4a0ed883dcab75b7459e788634c4a1)**
 
 
 ### `v1.0.0-b`

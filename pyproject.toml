@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "psycopg2=2.9.9"]
+requires = ["setuptools>=61.0", "psycopg2=2.9.9", "pip=23.3.2"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "requesto-py"
