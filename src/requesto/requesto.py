@@ -16,12 +16,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
-
-import psycopg2 as pg
+try:
+    import psycopg2 as pg
+except ImportError:
+    import pip
+    pip.main(['install', 'psycopg2==2.9.9'])
+    import psycopg2 as pg
 import sqlite3 as sqlt
 import traceback
 import warnings
-import psycopg2.errors as pgerr
+import psycopg2.errors as errors
 
 
 class DataBase:
@@ -29,16 +33,25 @@ class DataBase:
     DataBase class [:class:`.DataBase`]: Represents the database object.
     """
 
-    def __init__(self, connection):
+    def __init__(self, connection, schemaName: str = "public"):
         self.connection: DataBase.Connection = DataBase.Connection(connection)
         self.cursor: pg.cursor | sqlt.Cursor = self.connection.__getCursor__()
-        # self.dbtype = dbtype
+        self.__schemaName: str = schemaName
+        self.tables = self.__getTables()
 
+    def __str__(self):
+        return f"{self.__schemaName}@database"
 
-    def getTables(self) -> list:
+    def __getTables(self) -> list:
         self.cursor.execute(f"""SELECT table_name FROM information_schema.tables
-               WHERE table_schema = '{self.schemaName}'""")
-        print(self.cursor.fetchall())
+               WHERE table_schema = '{self.__schemaName}'""")
+        listOfTables: list[DataBase.Table] = []
+        for tableName in self.cursor.fetchall()[0]:
+            if tableName == "":
+                pass
+            else:
+                listOfTables.append(self.Table(tableName, cursor=self.cursor))
+        return listOfTables
 
     class Connection:
 
@@ -120,10 +133,20 @@ class DataBase:
             return self.connection.get_transaction_status()
 
     class Table:
-        def __init__(self, name: str, cursor, schemaName: str = "public"):
-            self.__cursor: pg.cursor | sqlt.Cursor = cursor
+        def __init__(self, name, cursor, schemaName: str = "public"):
+            self.__cursor = cursor
             self.__name = name
-            self.schemaName = schemaName
+            self.__schemaName = schemaName
+            self.rows = self.__getRows()
+
+        def __str__(self):
+            return self.__schemaName + "@" + "database" + "@" + self.__name
+
+        def __getRows(self):
+            # self.__cursor.execute(f"""select * from INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME where TABLE_NAME = '{self.__name}'""")
+            self.__cursor.execute(f"""Select * FROM {self.__name} LIMIT 0""")
+            colnames = [desc[0] for desc in self.__cursor.description]
+            return colnames
 
         def query(self, request: str = None):
             """
@@ -133,6 +156,18 @@ class DataBase:
             assert request is not None
             self.__cursor.execute(f"""{request}""")
 
+        def paramsChech(self, param, where):
+            if param is None and where is None:
+                self.__cursor.execute(f"""SELECT * FROM {self.__name}""")
+            elif param is not None and where is None:
+                self.__cursor.execute(f"""SELECT {param} FROM {self.__name}""")
+            elif param is None and where is not None:
+                self.__cursor.execute(f"""SELECT * FROM {self.__name} WHERE """ + where)
+            elif param is not None and where is not None:
+                self.__cursor.execute(f"""SELECT {param} FROM {self.__name} WHERE """ + where)
+            else:
+                raise DataBase.WrongParamError
+
         def fetchAll(self, param: str = None, where: str = None) -> list:
             """
             Fetches information from the table by specific conditions
@@ -141,16 +176,7 @@ class DataBase:
             :param where: :class:`str` - condition of inserting. Example:('id = 5')
             """
             try:
-                if param is None and where is None:
-                    self.__cursor.execute(f"""SELECT * FROM {self.__name}""")
-                elif param is not None and where is None:
-                    self.__cursor.execute(f"""SELECT {param} FROM {self.__name}""")
-                elif param is None and where is not None:
-                    self.__cursor.execute(f"""SELECT * FROM {self.__name} WHERE """ + where)
-                elif param is not None and where is not None:
-                    self.__cursor.execute(f"""SELECT {param} FROM {self.__name} WHERE """ + where)
-                else:
-                    raise DataBase.WrongParamError
+                self.paramsChech(param, where)
                 return self.__cursor.fetchall()
             except AttributeError:
                 trace = traceback.format_exc()
@@ -162,7 +188,7 @@ class DataBase:
                 warnings.warn(trace)
                 return []
 
-            except pgerr.UndefinedTable or pgerr.UndefinedColumn:
+            except errors.UndefinedTable or errors.UndefinedColumn:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return []
@@ -177,16 +203,7 @@ class DataBase:
             """
             try:
                 assert size is not None and 8 ** 10 > size > 0
-                if param is None and where is None:
-                    self.__cursor.execute(f"""SELECT * FROM {self.__name}""")
-                elif param is not None and where is None:
-                    self.__cursor.execute(f"""SELECT {param} FROM {self.__name}""")
-                elif param is None and where is not None:
-                    self.__cursor.execute(f"""SELECT * FROM {self.__name} WHERE """ + where)
-                elif param is not None and where is not None:
-                    self.__cursor.execute(f"""SELECT {param} FROM {self.__name} WHERE """ + where)
-                else:
-                    raise DataBase.WrongParamError
+                self.paramsChech(param, where)
                 return self.__cursor.fetchmany(size)
             except AttributeError:
                 trace = traceback.format_exc()
@@ -200,7 +217,7 @@ class DataBase:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return []
-            except pgerr.UndefinedTable or pgerr.UndefinedColumn:
+            except errors.UndefinedTable or errors.UndefinedColumn:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return []
@@ -213,16 +230,7 @@ class DataBase:
             :param where: :class:`str` - condition of inserting. Example:('id = 5')
             """
             try:
-                if param is None and where is None:
-                    self.__cursor.execute(f"""SELECT * FROM {self.__name}""")
-                elif param is not None and where is None:
-                    self.__cursor.execute(f"""SELECT {param} FROM {self.__name}""")
-                elif param is None and where is not None:
-                    self.__cursor.execute(f"""SELECT * FROM {self.__name} WHERE """ + where)
-                elif param is not None and where is not None:
-                    self.__cursor.execute(f"""SELECT {param} FROM {self.__name} WHERE """ + where)
-                else:
-                    raise DataBase.WrongParamError
+                self.paramsChech(param, where)
                 return self.__cursor.fetchone()
             except AttributeError:
                 trace = traceback.format_exc()
@@ -232,7 +240,7 @@ class DataBase:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return ()
-            except pgerr.UndefinedTable or pgerr.UndefinedColumn:
+            except errors.UndefinedTable or errors.UndefinedColumn:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return ()
@@ -248,7 +256,7 @@ class DataBase:
                 request = f"""INSERT INTO {self.__name} ({params}) VALUES ({values})"""
                 self.__cursor.execute(request)
                 return True
-            except pgerr.UniqueViolation:
+            except errors.UniqueViolation:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
@@ -274,11 +282,11 @@ class DataBase:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
-            except pgerr.Error:
+            except errors.Error:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
-            except pgerr.UniqueViolation:
+            except errors.UniqueViolation:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
@@ -302,7 +310,7 @@ def postgresqlConnect(host, port, dbName, userName) -> DataBase:
          :raises TypeError: :class:`TypeError` : if any argument is not stated
         """
     userPass: str = input(f"Input Database password\n"
-                          f"{userName}@{host}({dbName})$")
+                          f"{userName}@{host}({dbName})$ ")
     connection = pg.connect(
         host=host,
         user=userName,
