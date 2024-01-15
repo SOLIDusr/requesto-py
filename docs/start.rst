@@ -3,7 +3,7 @@ with pre-downloaded dependencies in progress.
 `\*click\* <https://github.com/SOLIDusr/requesto-py/tree/no-dependencies>`__
 
 Dependencies: \* OS Windows(8.1?/10/11) / OS Linux (Mint 22 / Mint 23 /
-Ubuntu 23) \* python 3.10 \* pip 23.3.1 \* psycopg2 \* sqlite3
+Ubuntu 23) \* python 3.10 \* pip 23.3.1 \* psycopg2=2.9.9 \* sqlite3
 
 1. How to clone the repo
 
