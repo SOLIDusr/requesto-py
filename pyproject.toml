@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "psycopg2=2.9.9", "pip=23.3.2"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "requesto-py"
-version = "1.1.0.b"
+version = "1.1.0"
 authors = [
   { name="NaroMori", email="reply.naromori@google.com" },
 ]

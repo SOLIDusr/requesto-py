@@ -1,7 +1,7 @@
 
-<h3>✅ Test Result 2023-12-7, 5:01 PM UTC+3</h3>
+_<h3>✅ Test Result 2024-16-1, 10:45 AM UTC+3</h3>
 
-<h3> Project Version: v1.0.0-rc </h3>
+<h3> Project Version: v1.1.0-r </h3>
 
 
 <table>
@@ -36,4 +36,6 @@
 `method fetchAll` **test passed** <br>
 `method insert` **test passed** <br>
 `method update` **test passed** <br>
+`method _getTables` **test passed** <br>
+`method _getColumns` **test passed** <br>
 

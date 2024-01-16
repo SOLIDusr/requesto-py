@@ -1,6 +1,6 @@
 **requesto-py** is a lightweight, stable and smart Python library performing ORM functions.
 <br>
-Documentation is !current for the version: `1.1.0-b`
+Documentation is !current for the version: `1.1.0-r`
 ---
 
 <h3>Features:</h3>
