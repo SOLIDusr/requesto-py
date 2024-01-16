@@ -14,7 +14,7 @@ __title__ = 'requesto'
 __author__ = 'SOLIDusr'
 __license__ = 'GNU'
 __copyright__ = 'Copyright 2023-present SOLIDusr'
-__version__ = '1.1.0-r'
+__version__ = '1.1.0-r1'
 
 import logging
 from .requesto import *
@@ -30,7 +30,7 @@ class VersionInfo(NamedTuple):
     releaseLevel: Literal["alpha", "beta", "candidate", "final"]
 
 
-version_info: VersionInfo = VersionInfo(major=1, minor=1, micro=0, hotfix=0, releaseLevel='beta')
+version_info: VersionInfo = VersionInfo(major=1, minor=1, micro=0, hotfix=1, releaseLevel='final')
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
