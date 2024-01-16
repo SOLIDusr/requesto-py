@@ -20,12 +20,14 @@ try:
     import psycopg2 as pg
 except ImportError:
     import pip
+
     pip.main(['install', 'psycopg2==2.9.9'])
     import psycopg2 as pg
 import sqlite3 as sqlt
 import traceback
 import warnings
 import psycopg2.errors as errors
+
 """
 That is a horrible solution right there! Do not even do that in your code.
 That is just an unimaginable horror of a good programmer
@@ -39,11 +41,13 @@ class DataBase:
     DataBase class [:class:`.DataBase`]: Represents the database object.
     """
 
-    def __init__(self, connection, schemaName: str = "public"):
+    def __init__(self, connection, schemaName: str = "public", dbType: str | None = None):
+        self.dbType = dbType
         self.connection: DataBase.Connection = DataBase.Connection(connection)
         self.cursor: _cursor_ | sqlt.Cursor = self.connection.__getCursor__()
         self.__schemaName: str = schemaName
-        self.tables = self.__getTables()
+        if dbType is "postgresql":
+            self.tables = self.__getTables()
 
     def __str__(self):
         return f"{self.__schemaName}@database"
@@ -144,12 +148,12 @@ class DataBase:
             self.__cursor = cursor
             self.__name = name
             self.__schemaName = schemaName
-            self.rows = self.__getRows()
+            self.columns = self.__getColumns()
 
         def __str__(self):
             return self.__schemaName + "@" + "database" + "@" + self.__name
 
-        def __getRows(self):
+        def __getColumns(self):
             # self.__cursor.execute(f"""select * from INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME
             # where TABLE_NAME = '{self.__name}'""")
             self.__cursor.execute(f"""Select * FROM {self.__name} LIMIT 0""")
@@ -303,7 +307,7 @@ class DataBase:
         pass
 
 
-def postgresqlConnect(host, port, dbName, userName) -> DataBase:
+def postgresqlConnect(host, port, dbName, userName, schemaName=None) -> DataBase:
     """Adds a field to the embed object.
         This function returns the :class:`DataBase`
         Fancy password input included!
@@ -311,6 +315,7 @@ def postgresqlConnect(host, port, dbName, userName) -> DataBase:
          :param port: :class:`str` Port of the database server
          :param dbName: :class:`str` Name of the database
          :param userName: :class:`str` Username of the database user
+         :param schemaName: :class:`str` Name of the schema where the user wants to connect to the database
          :raises TypeError: :class:`TypeError` : if any argument is not stated
         """
     userPass: str = input(f"Input Database password\n"
@@ -322,7 +327,7 @@ def postgresqlConnect(host, port, dbName, userName) -> DataBase:
         database=dbName,
         port=port)
 
-    db = DataBase(connection)
+    db = DataBase(connection, schemaName=schemaName, dbType="postgresql")
     return db
 
 
@@ -337,13 +342,12 @@ def sqliteConnect(ifMemory: bool = False, filename: str = None) -> DataBase | Da
     """
     if filename is not None:
         connection = sqlt.connect(f"{filename}")
-        db = DataBase(connection)
-        return db
 
     elif ifMemory:
         connection = sqlt.connect(":memory:")
-        db = DataBase(connection)
-        return db
 
     else:
         raise DataBase.WrongParamError
+
+    db = DataBase(connection, dbType="sqlite3")
+    return db

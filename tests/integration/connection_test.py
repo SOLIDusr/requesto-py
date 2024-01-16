@@ -12,6 +12,6 @@ def resource_setup():
 
 
 def test_1_pg_table(resource_setup):
-    assert resource_setup.Table("coredb", resource_setup.cursor)
+    assert resource_setup.Table("userdata", resource_setup.cursor)
     assert resource_setup.Table
 

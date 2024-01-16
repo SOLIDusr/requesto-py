@@ -8,10 +8,10 @@ def resource_setup():
                                     port="5432",
                                     userName="dolta",
                                     dbName="coredb")
-    uD = database.Table("userData", database.cursor)
-    return uD
+    return database
 
 
-def test_3_pg_fetches_all(resource_setup):
-    assert resource_setup.fetchAll()
-
+def test_1_pg_insert(resource_setup):
+    assert resource_setup.tables[0] in ["userdata", "test"]
+    assert resource_setup.tables
+    assert len(resource_setup.tables) == 2
