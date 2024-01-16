@@ -1,15 +1,15 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0", "psycopg2=2.9.9", "pip=23.3.2"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "requesto-py"
-version = "1.0.0.4"
+version = "1.1.0"
 authors = [
   { name="NaroMori", email="reply.naromori@google.com" },
 ]
 description = "Lightweight python wrapper library for psycopg2 and sqlite3 databases without tons of useless code."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",

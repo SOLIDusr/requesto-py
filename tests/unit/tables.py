@@ -11,7 +11,7 @@ def resource_setup():
     return database
 
 
-def test_1_pg_table(resource_setup):
-    assert resource_setup.Table("userdata", resource_setup.cursor)
-    assert resource_setup.Table
-
+def test_1_pg_insert(resource_setup):
+    assert resource_setup.tables[0] in ["userdata", "test"]
+    assert resource_setup.tables
+    assert len(resource_setup.tables) == 2
