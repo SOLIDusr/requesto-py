@@ -20,7 +20,7 @@ Before installation make sure to install all dependencies! No-dependencies branc
 
    
 ## Docs
-You can check docs [\*here\*](tests/lang.md).
+You can check docs [\*here\*](docs/lang.md).
 
 [Realeses]: https://github.com/SolidUsr/requesto-py/releases
 
