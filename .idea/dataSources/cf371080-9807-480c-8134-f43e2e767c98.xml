@@ -3,7 +3,15 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.51">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <IntrospectionStateNumber>806</IntrospectionStateNumber>
+      <Grants>1||-9223372036854775808|c|G
+1||10|c|G
+1||10|C|G
+1||10|T|G
+4||-9223372036854775808|c|G
+4||10|c|G
+4||10|C|G
+4||10|T|G</Grants>
+      <IntrospectionStateNumber>808</IntrospectionStateNumber>
       <ServerVersion>16.0</ServerVersion>
       <StartupTime>1703064031</StartupTime>
       <TimeZones>true ACDT
@@ -1400,7 +1408,7 @@ false posixrules
 13212||10|C|G
 13212||-9223372036854775808|U|G
 13212||10|U|G</Grants>
-      <IntrospectionStateNumber>806</IntrospectionStateNumber>
+      <IntrospectionStateNumber>808</IntrospectionStateNumber>
       <ObjectId>16384</ObjectId>
       <OwnerName>dolta</OwnerName>
     </database>
@@ -4824,8 +4832,8 @@ false posixrules
     <schema id="264" parent="2" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>806</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2024-01-11.08:02:15</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>808</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2024-02-08.18:34:09</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>524</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
