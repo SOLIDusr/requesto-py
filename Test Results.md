@@ -1,7 +1,7 @@
 
-_<h3>✅ Test Result 2024-16-1, 10:45 AM UTC+3</h3>
+_<h3>✅ Test Result 2024-9-2, 2:35 PM UTC+3</h3>
 
-<h3> Project Version: v1.1.0-r </h3>
+<h3> Project Version: v1.2.0-r </h3>
 
 
 <table>
@@ -16,15 +16,16 @@ _<h3>✅ Test Result 2024-16-1, 10:45 AM UTC+3</h3>
 </tr>
 <tr>
   <td>✅</td>
-  <td>10(21)</td>
-  <td>10(21)</td>
+  <td>12(24)</td>
+  <td>12(24)</td>
   <td>0</td>
-  <td>0s 70ms</td>
+  <td>0s 121ms</td>
 </tr>
 </table>
 
 ### Testing OS: Windows 10 / Linux Mint 21.2 Victoria <br>
 ### Python version: ^3.10.* <br>
+### Psycopg2_binary-2.9.9
 ### pytest-7.4.3 <br> 
 ### pluggy-1.3.0 <br>
 

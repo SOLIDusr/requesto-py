@@ -19,19 +19,19 @@ DEALINGS IN THE SOFTWARE.
 try:
     import psycopg2 as pg
 except ImportError:
-    import pip
+    # pip.main is going to be deleted probably. Might be a problem
+    from pip import main
 
-    pip.main(['install', 'psycopg2==2.9.9'])
+    main(['install', 'psycopg2==2.9.9'])
     import psycopg2 as pg
 import sqlite3 as sqlt
 import traceback
 import warnings
-import psycopg2.errors as errors
 
 """
 That is a horrible solution right there! Do not even do that in your code.
-That is just an unimaginable horror of a good programmer
 """
+
 _cursor_ = pg._psycopg.cursor
 _connection_ = pg._psycopg.connection
 
@@ -46,7 +46,7 @@ class DataBase:
         self.connection: DataBase.Connection = DataBase.Connection(connection)
         self.cursor: _cursor_ | sqlt.Cursor = self.connection.__getCursor__()
         self.__schemaName: str = schemaName
-        if dbType is "postgresql":
+        if dbType == "postgresql":
             self.tables = self.__getTables()
 
     def __str__(self):
@@ -154,8 +154,6 @@ class DataBase:
             return self.__schemaName + "@" + "database" + "@" + self.__name
 
         def __getColumns(self):
-            # self.__cursor.execute(f"""select * from INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME
-            # where TABLE_NAME = '{self.__name}'""")
             self.__cursor.execute(f"""Select * FROM {self.__name} LIMIT 0""")
             columnNames = [desc[0] for desc in self.__cursor.description]
             return columnNames
@@ -168,7 +166,7 @@ class DataBase:
             assert request is not None
             self.__cursor.execute(f"""{request}""")
 
-        def paramsCheck(self, param, where):
+        def __paramsCheck(self, param, where):
             if param is None and where is None:
                 self.__cursor.execute(f"""SELECT * FROM {self.__name}""")
             elif param is not None and where is None:
@@ -188,7 +186,7 @@ class DataBase:
             :param where: :class:`str` - condition of inserting. Example:`('id = 5')`
             """
             try:
-                self.paramsCheck(param, where)
+                self.__paramsCheck(param, where)
                 return self.__cursor.fetchall()
             except AttributeError:
                 trace = traceback.format_exc()
@@ -196,11 +194,6 @@ class DataBase:
                 return []
 
             except DataBase.WrongParamError:
-                trace = traceback.format_exc()
-                warnings.warn(trace)
-                return []
-
-            except errors.UndefinedTable or errors.UndefinedColumn:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return []
@@ -215,7 +208,7 @@ class DataBase:
             """
             try:
                 assert size is not None and 8 ** 10 > size > 0
-                self.paramsCheck(param, where)
+                self.__paramsCheck(param, where)
                 return self.__cursor.fetchmany(size)
             except AttributeError:
                 trace = traceback.format_exc()
@@ -229,10 +222,6 @@ class DataBase:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return []
-            except errors.UndefinedTable or errors.UndefinedColumn:
-                trace = traceback.format_exc()
-                warnings.warn(trace)
-                return []
 
         def fetchOne(self, param: str | None = None, where: str | None = None) -> tuple:
             """
@@ -242,17 +231,13 @@ class DataBase:
             :param where: :class:`str` - condition of inserting. Example:`('id = 5')`
             """
             try:
-                self.paramsCheck(param, where)
+                self.__paramsCheck(param, where)
                 return self.__cursor.fetchone()
             except AttributeError:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return ()
             except DataBase.WrongParamError:
-                trace = traceback.format_exc()
-                warnings.warn(trace)
-                return ()
-            except errors.UndefinedTable or errors.UndefinedColumn:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return ()
@@ -268,7 +253,7 @@ class DataBase:
                 request = f"""INSERT INTO {self.__name} ({params}) VALUES ({values})"""
                 self.__cursor.execute(request)
                 return True
-            except errors.UniqueViolation:
+            except Exception as e:  # Some shit happened to pg.errors, so I removed it for good.
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
@@ -294,23 +279,27 @@ class DataBase:
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
-            except errors.Error:
-                trace = traceback.format_exc()
-                warnings.warn(trace)
-                return False
-            except errors.UniqueViolation:
-                trace = traceback.format_exc()
-                warnings.warn(trace)
-                return False
 
     class WrongParamError(Exception):
         pass
 
 
-def postgresqlConnect(host, port, dbName, userName, schemaName=None) -> DataBase:
+class User:
+    def __init__(self, host, port, username, dbName):
+        self.host = host
+        self.port = port
+        self.username = username
+        self.dbName = dbName
+        self.password: str = input(f"Input Database password {username}@{host}({dbName})$ ")
+
+
+def postgresqlConnect(user: User = None, host=None, port=None, dbName=None, userName=None,
+                      schemaName=None) -> DataBase:
     """Adds a field to the embed object.
         This function returns the :class:`DataBase`
         Fancy password input included!
+         :param user: :class:`user.User` User object with data to connect.
+         If not provided - defaults to manual data input
          :param host: :class:`str` Database host
          :param port: :class:`str` Port of the database server
          :param dbName: :class:`str` Name of the database
@@ -318,14 +307,22 @@ def postgresqlConnect(host, port, dbName, userName, schemaName=None) -> DataBase
          :param schemaName: :class:`str` Name of the schema where the user wants to connect to the database
          :raises TypeError: :class:`TypeError` : if any argument is not stated
         """
-    userPass: str = input(f"Input Database password\n"
-                          f"{userName}@{host}({dbName})$ ")
-    connection = pg.connect(
-        host=host,
-        user=userName,
-        password=userPass,
-        database=dbName,
-        port=port)
+    if user is not None:
+        connection = pg.connect(
+            host=user.host,
+            user=user.username,
+            password=user.password,
+            database=user.dbName,
+            port=user.port)
+    else:
+        userPass: str = input(f"Input Database password\n"
+                              f"{userName}@{host}({dbName})$ ")
+        connection = pg.connect(
+            host=host,
+            user=userName,
+            password=userPass,
+            database=dbName,
+            port=port)
 
     db = DataBase(connection, schemaName=schemaName, dbType="postgresql")
     return db
