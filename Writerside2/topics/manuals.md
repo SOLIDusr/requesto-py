@@ -1,3 +1,0 @@
-# manuals
-
-Start typing here...

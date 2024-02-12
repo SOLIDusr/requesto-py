@@ -1,3 +1,0 @@
-# quickstart
-
-Start typing here...

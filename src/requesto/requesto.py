@@ -19,7 +19,7 @@ DEALINGS IN THE SOFTWARE.
 try:
     import psycopg2 as pg
 except ImportError:
-    # pip.main is going to be deleted probably. Might be a problem
+    # pip.main is going to be deleted, probably. Might be a problem
     from pip import main
 
     main(['install', 'psycopg2==2.9.9'])
@@ -253,7 +253,7 @@ class DataBase:
                 request = f"""INSERT INTO {self.__name} ({params}) VALUES ({values})"""
                 self.__cursor.execute(request)
                 return True
-            except Exception as e:  # Some shit happened to pg.errors, so I removed it for good.
+            except Exception:  # Some shit happened to pg.errors, so I removed it for good.
                 trace = traceback.format_exc()
                 warnings.warn(trace)
                 return False
