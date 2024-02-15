@@ -39,10 +39,12 @@ sqliteConnection(ifMemory = True)
 
 
 Moreover, in update 1.2 you can now check if table in the database:
+
 ```python
 ...
 import requesto as rq
-database = rq.DataBase(user=user)
+
+database = rq._DataBase(user=user)
 tableName = "userdata"
 if tableName not in database.tables:
     raise Exception
