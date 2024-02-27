@@ -36,19 +36,30 @@ _cursor_ = pg._psycopg.cursor
 _connection_ = pg._psycopg.connection
 
 
+class User:
+    def __init__(self, host, port, username, dbName):
+        self.host = host
+        self.port = port
+        self.username = username
+        self.dbName = dbName
+        self.password: str = input(f"Input Database password {username}@{host}({dbName})$ ")
+
+
 class _DataBase:
     """
     DataBase class [:class:`.DataBase`]: Represents the database object.
     """
 
-    def __init__(self, connection, schemaName: str = "",
-                 autoParce: bool | None = None):
-        self.connection: _DataBase.Connection = _DataBase.Connection(connection)
+    def __init__(self, connect: _connection_ | sqlt.Connection | None, schemaName=None):
+
+        self.connect = connect
+        self.tables = []
+        self.connection: _DataBase.Connection = _DataBase.Connection(self.connect)
         self.cursor: _cursor_ | sqlt.Cursor = self.connection.__getCursor__()
         self.__schemaName: str = schemaName
 
-    def __str__(self):
-        return f"{self.__schemaName}@database"
+    # def __str__(self):
+    #     return f"{self.__schemaName}@database"
 
     class Connection:
 
@@ -130,7 +141,7 @@ class _DataBase:
             return self.connection.get_transaction_status()
 
     class Table:
-        def __init__(self, name, cursor, schemaName: str = "public", dbType="n/a"):
+        def __init__(self, name, cursor, schemaName: str = ""):
             self.__cursor = cursor
             self.name = name
             self.__schemaName = schemaName
@@ -267,138 +278,62 @@ class _DataBase:
     class WrongParamError(Exception):
         pass
 
-
-class PostgresDb(_DataBase):
-    def __init__(self, connection, schemaName: str = "public",
-                 autoParce: bool = False):
-        super().__init__(connection, schemaName, autoParce)
-        self.__schemaName = schemaName
-        if autoParce is True:
-            self.tables: list[PostgresDb.Table] = [_DataBase.Table(table.name, cursor=self.cursor, schemaName=schemaName) for
-                           table in self.__getTables()]
-
-        else:
-            self.tables = []
-
-    def __getTables(self) -> list:
-        self.cursor.execute(f"""SELECT table_name FROM information_schema.tables
-                WHERE table_schema = '{self.__schemaName}'""")
-
-        listOfTables = [self.Table(tableName[0], self.cursor, self.__schemaName) for tableName in self.cursor.fetchall()
-                        if tableName != ""]
-        return listOfTables
-
-    class Table(_DataBase.Table):
-
-        def __init__(self, name, cursor, schemaName: str = "public"):
-            super().__init__(name, cursor, schemaName)
-            self.name = name
-            self.__cursor = cursor
-            self.__schemaName = schemaName
-            self.columns = self.__getColumns()
-
-        def __getColumns(self):
-            self.__cursor.execute(f"""Select * FROM {self.name} LIMIT 0""")
-            columnNames = [desc[0] for desc in self.__cursor.description]
-            return columnNames
-
-
-class SqliteDb(_DataBase):
-    def __init__(self, connection, schemaName: str = "", autoParce: bool = False):
-        super().__init__(connection, schemaName, autoParce)
-        if autoParce is True:
-            from warnings import warn
-            warn("Using table generating is not stable in sqlite3! If you encounter any errors - please contact!")
-            warn("Do you want to proceed? Y/n")
-            if input().lower() == "y":
-                self.tables = [_DataBase.Table(table.name, cursor=self.cursor, schemaName=schemaName) for
-                               table in self.__getTables()]
-
-    def __getTables(self) -> list:
-        self.cursor.execute(f"""SELECT name FROM sqlite_master WHERE type='table'""")
-        listOfTables = [self.Table(tableName[0], self.cursor, self.__schemaName) for tableName in self.cursor.fetchall()
-                        if tableName != ""]
-        return listOfTables
-
-    class Table(_DataBase.Table):
-        def __init__(self, name, cursor, schemaName: str = "main"):
-            super().__init__(name, cursor, schemaName)
-            self.name = name
-            self.__cursor = cursor
-            self.__schemaName = schemaName
-            self.columns = self.__getColumns()
-
-        def __getColumns(self):
-            self.__cursor.execute(f"""Select * FROM {self.name} LIMIT 0""")
-            columnNames = [desc[0] for desc in self.__cursor.description]
-            return columnNames
-
-
-class User:
-    def __init__(self, host, port, username, dbName):
-        self.host = host
-        self.port = port
-        self.username = username
-        self.dbName = dbName
-        self.password: str = input(f"Input Database password {username}@{host}({dbName})$ ")
-
-
-def postgresqlConnect(user: User | None = None, host=None, port=None, dbName=None, userName=None,
-                      schemaName=None, autoParce: bool = False) -> _DataBase:
-    """Adds a field to the embed object.
-        This function returns the :class:`DataBase`
-        Fancy password input included!
-         :param user: :class:`user.User` User object with data to connect.
-         If not provided - defaults to manual data input
-         :param host: :class:`str` Database host
-         :param port: :class:`str` Port of the database server
-         :param dbName: :class:`str` Name of the database
-         :param userName: :class:`str` Username of the database user
-         :param schemaName: :class:`str` Name of the schema where the user wants to connect to the database
-         :param autoParce :class:`bool` If you want to parce the db and return every table automatically.
-         :raises TypeError: :class:`TypeError` : if any argument is not stated
-        """
-    if user is not None:
-        connection = pg.connect(
-            host=user.host,
-            user=user.username,
-            password=user.password,
-            database=user.dbName,
-            port=user.port)
-    else:
-        userPass: str = input(f"Input Database password\n"
-                              f"{userName}@{host}({dbName})$ ")
-        connection = pg.connect(
-            host=host,
-            user=userName,
-            password=userPass,
-            database=dbName,
-            port=port)
-
-    db = PostgresDb(connection, schemaName=schemaName, autoParce=autoParce)
-    return db
-
-
-def sqliteConnect(ifMemory: bool = False, filename: str = None, schemaName: str = "main",
-                  autoParce: bool = False) -> _DataBase | _DataBase.WrongParamError:
-    """Initializes database object
-
-    This function returns the :class:`DataBase`
-    Do not use **ifMemory** with **filename** stated
-     :param filename: :class:`str` Filename of the database file
-     :param ifMemory: :class:`bool` Make true to launch in RAM mode
-     :param schemaName: :class:`str` Name of the schema where the user wants to connect to the database
-     :param autoParce :class:`bool` If you want to parce the db and return every table automatically.
-     :raises WrongParamError: :class:`DataBase.WrongParamError` if any of the param is wrong
-    """
-    if filename is not None:
-        connection = sqlt.connect(f"{filename}")
-
-    elif ifMemory:
-        connection = sqlt.connect(":memory:")
-
-    else:
-        raise _DataBase.WrongParamError
-
-    db = SqliteDb(connection=connection, schemaName=schemaName, autoParce=autoParce)
-    return db
+# def postgresqlConnect(user: User | None = None, host=None, port=None, dbName=None, userName=None,
+#                       schemaName=None, autoParce: bool = False) -> _DataBase:
+#     """Adds a field to the embed object.
+#         This function returns the :class:`DataBase`
+#         Fancy password input included!
+#          :param user: :class:`user.User` User object with data to connect.
+#          If not provided - defaults to manual data input
+#          :param host: :class:`str` Database host
+#          :param port: :class:`str` Port of the database server
+#          :param dbName: :class:`str` Name of the database
+#          :param userName: :class:`str` Username of the database user
+#          :param schemaName: :class:`str` Name of the schema where the user wants to connect to the database
+#          :param autoParce :class:`bool` If you want to parce the db and return every table automatically.
+#          :raises TypeError: :class:`TypeError` : if any argument is not stated
+#         """
+#     if user is not None:
+#         connection = pg.connect(
+#             host=user.host,
+#             user=user.username,
+#             password=user.password,
+#             database=user.dbName,
+#             port=user.port)
+#     else:
+#         userPass: str = input(f"Input Database password\n"
+#                               f"{userName}@{host}({dbName})$ ")
+#         connection = pg.connect(
+#             host=host,
+#             user=userName,
+#             password=userPass,
+#             database=dbName,
+#             port=port)
+#
+#     db = PostgresDb(connection, schemaName=schemaName, autoParce=autoParce)
+#     return db
+#
+#
+# def sqliteConnect(ifMemory: bool = False, filename: str = None, schemaName: str = "main",
+#                   autoParce: bool = False) -> _DataBase | _DataBase.WrongParamError:
+#     """Initializes database object
+#
+#     This function returns the :class:`DataBase`
+#     Do not use **ifMemory** with **filename** stated
+#      :param filename: :class:`str` Filename of the database file
+#      :param ifMemory: :class:`bool` Make true to launch in RAM mode
+#      :param schemaName: :class:`str` Name of the schema where the user wants to connect to the database
+#      :param autoParce :class:`bool` If you want to parce the db and return every table automatically.
+#      :raises WrongParamError: :class:`DataBase.WrongParamError` if any of the param is wrong
+#     """
+#     if filename is not None:
+#         connection = sqlt.connect(f"{filename}")
+#
+#     elif ifMemory:
+#         connection = sqlt.connect(":memory:")
+#
+#     else:
+#         raise _DataBase.WrongParamError
+#
+#     db = SqliteDb(connection=connection, schemaName=schemaName, autoParce=autoParce)
+#     return db

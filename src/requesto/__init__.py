@@ -18,6 +18,9 @@ __version__ = '1.2.0-r'
 
 import logging
 from .requesto import *
+from .MySqlDb import *
+from .PostgresDb import *
+from .SqliteDb import *
 from typing import NamedTuple, Literal
 from urllib import request
 
