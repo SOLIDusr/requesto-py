@@ -17,7 +17,12 @@ __copyright__ = 'Copyright 2023-present SOLIDusr'
 __version__ = '1.2.0-r'
 
 import logging
-from .requesto import *
+import urllib.error
+
+from .SqliteDb import *
+from .MySqlDb import *
+from .PostgresDb import *
+from .User import *
 from typing import NamedTuple, Literal
 from urllib import request
 
@@ -42,10 +47,15 @@ def connectionTest():
         import warnings
 
         warnings.warn(
-            "Seems like there's no internet connection."
-            " 'https://google.com' cannot be pinged."
-            " App will continue to run without connection, but some functions may be missing.",
+            "\nSeems like there's no internet connection.\n"
+            " 'https://google.com' cannot be pinged.\n"
+            " App will continue to run without connection, but some functions may be missing or broken.",
         )
+    except urllib.error.URLError:
+        import warnings
+        warnings.warn("\nSeems like there's no internet connection.\n"
+                      "'https://google.com' cannot be pinged.\n"
+                      "App will continue to run without connection, but some functions may be missing or broken.")
 
 
 connectionTest()
