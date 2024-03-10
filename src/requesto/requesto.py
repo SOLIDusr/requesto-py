@@ -129,7 +129,7 @@ class DataBase:
             return self.connection.get_transaction_status()
 
     class Table:
-        def __init__(self, name, cursor, schemaName: str = "public"):
+        def __init__(self, name, cursor, schemaName: str):
             self.__cursor = cursor
             self.__name = name
             self.__schemaName = schemaName

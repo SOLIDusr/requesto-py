@@ -20,7 +20,7 @@ class PostgresDb(DataBase):
                 password=user.password,
                 database=user.dbName,
                 port=user.port)
-        else:
+        elif user is None and host is not None and port is not None and dbName is not None and userName is not None:
             userPass: str = input(f"Input Database password\n"
                                   f"{userName}@{host}({dbName})$ ")
             connection = pg.connect(
@@ -29,6 +29,10 @@ class PostgresDb(DataBase):
                 password=userPass,
                 database=dbName,
                 port=port)
+        else:
+            from warnings import warn
+            warn("Database details were not provided!")
+            raise
 
         super().__init__(connection, schemaName=schemaName)
         self.__schemaName = schemaName
@@ -46,7 +50,14 @@ class PostgresDb(DataBase):
         def __init__(self, connection):
             super().__init__(connection)
 
-        def createTable(self, tableName, schemaName):
-            self.connection.cursor().execute(f"CREATE TABLE IF NOT EXISTS {tableName}("
-                                             f""
-                                             f")")
+    class Table(DataBase.Table):
+
+        def __init__(self, name: str, cursor, schemaName: str = "public"):
+            super().__init__(name=name, cursor=cursor, schemaName=schemaName)
+            self.__cursor = cursor
+            self.__name = name
+
+        def __getColumns(self):
+            self.__cursor.execute(f"""Select * FROM {self.__name} LIMIT 0""")
+            columnNames = [desc[0] for desc in self.__cursor.description]
+            return columnNames

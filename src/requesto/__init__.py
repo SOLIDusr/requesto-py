@@ -20,7 +20,6 @@ import logging
 import urllib.error
 
 from .SqliteDb import *
-from .MySqlDb import *
 from .PostgresDb import *
 from .User import *
 from typing import NamedTuple, Literal
