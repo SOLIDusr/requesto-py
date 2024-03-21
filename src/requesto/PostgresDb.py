@@ -38,6 +38,7 @@ class PostgresDb(DataBase):
         self.__schemaName = schemaName
         self.tables = self.__getTables()
 
+
     def __getTables(self):
         self.cursor.execute(f"""SELECT table_name FROM information_schema.tables
                        WHERE table_schema = '{self.__schemaName}'""")
