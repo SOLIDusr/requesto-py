@@ -1,52 +1,45 @@
 # Часто задаваемые вопросы
 
----
 
-## Содержание
+<details>
+    <summary>Почему requesto? </summary>
 
-* [Основы](./#Основы)
-* * [Инициализация](./#Инициализация)
-* * [Объект базы данных](./#Объект базы данных)
-* * [Объект таблицы](./#Объект таблицы)
+В то время как другие ORM и обертки пытаются писать базу данных для базы данных, переписывая одну и ту же логику снова и снова,
+я старался оставаться простым и не использовать модели. Моя библиотека быстрая и простая в использовании. И да, она сделана как бы просто для развлечения. Типа, пользуйтесь пиу-пиу xD. Ты единственный, кому это интересно.
+</details>
 
+<details>
+    <summary>Объявление объекта таблицы</summary>
 
-# Основы
+Вы можете использовать как объект базы данных, так и класс:
 
----
-## Инициализация
-
-В старых (дорелизных) версиях инициализация происходила созданием объекта базы данных,
-но сейчас для этого используется одна из функций [`rq.sqliteConnection()`](manuals.md/#sqliteConnection)
-или [`rq.postgresqlConnection()`](manuals.md/#postgresqlConnection)
 ```python
-import requesto as rq
-database = rq.postgresqlConnect(host="host",
-                       port="port",
-                       dbName="dbname",
-                       userName="username")
+...
+database = rq.sqliteConnect("file")
+
+table = rq.Database.Table(...)
+или
+table = database.Table(...)
+
+# Не имеет значения
 ```
-Или 
-```python
-import requesto as rq
-database = rq.sqliteConnection(filename="database.db")
-```
----
-## Объект базы данных
+</details>
 
-Вызов функции [`rq.sqliteConnection()`](manuals.md/#sqliteConnection) или [`rq.postgresqlConnection()`](manuals.md/#postgresqlConnection)
-возвращает объект ```requesto.Database```
-Объект Database используется для назначения таблиц и является некоторым центром БД. Дочерним объектом
-Database является объект `Connection`. Он отвечает за управление базой данных и объектом `cursor`.
+<details>
+    <summary>Можно ли внести свой вклад</summary>
+Не стесняйтесь делать форки, вносить свой вклад и даже изменять большие части кода, переписывать логику и т.д. Однажды эта библиотека может стать большой!
+</details>
 
----
+<details>
+    <summary>Могу ли я использовать ее в своем проекте</summary>
 
-## Объект таблицы
+Она с открытым исходным кодом, ее можно использовать в любом проекте.
 
-Создание объекта Table через [`db.Table(name)`](manuals.md/#) или [`rq.postgresqlConnection()`](manuals.md/#postgresqlConnection)
+</details>
 
-<br>
 
-Объект Table используется для управления данными в таблице через функции `fetchAll` , `fetchMany`, `fetchOne`
-, `insert`, `update`
-
----
+<details>
+    <summary>Для компаний FAANG</summary>
+    
+Безусловно, я хотел бы работать в вашей компании. С большим энтузиазмом!
+</details>

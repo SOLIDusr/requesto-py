@@ -5,7 +5,7 @@
     <summary>Why requesto?</summary>
 
 While other ORMs and wrappers are trying to write database for database, rewriting the same logic over and over again,
-I tried to stay simple and out of models. My library is fast and easy to use.
+I tried to stay simple and out of models. My library is fast and easy to use. And yeah, it's made kinda just for fun. Like, use peewee xD. You are the only one who cares.
 </details>
 
 <details>
