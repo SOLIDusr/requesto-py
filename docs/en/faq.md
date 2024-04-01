@@ -1,51 +1,41 @@
 # Frequently asked questions
 
----
 
-## Contents
+<details>
+    <summary>Why requesto?</summary>
 
-* [Basics](./#Basics)
-* * [Initialization](./#Initialization)
-* * [Database object](./#Database object)
-* * [Table object](./#Table object)
+While other ORMs and wrappers are trying to write database for database, rewriting the same logic over and over again,
+I tried to stay simple and out of models. My library is fast and easy to use. And yeah, it's made kinda just for fun. Like, use peewee xD. You are the only one who cares.
+</details>
 
+<details>
+    <summary>Declaring Table Object</summary>
 
-# Basics
+You can use both database object or class:
 
----
-## Initialization
-
-In older (pre-release) versions you could initialize database object by creating Database object,
-but now you can use one of these methods [`rq.sqliteConnection()`](manuals.md/#sqliteConnection)
-OR [`rq.postgresqlConnection()`](manuals.md/#postgresqlConnection)
 ```python
-import requesto.requesto as rq
-database = rq.postgresqlConnect(host="host",
-                       port="port",
-                       dbName="dbname",
-                       userName="username")
+...
+database = rq.sqliteConnnect("file")
+
+table = rq.Database.Table(...)
+or
+table = database.Table(...)
+#  Does not matter at all
 ```
-OR 
-```python
-import requesto.requesto as rq
-database = rq.sqliteConnection(filename="database.db")
-```
----
-## Database Object
+</details>
 
-By calling [`rq.sqliteConnection()`](manuals.md/#sqliteConnection) or [`rq.postgresqlConnection()`](manuals.md/#postgresqlConnection)
-you'll get db object ```requesto.Database```
-Database object used to make table oobjects and is like a center of database. `Connection` is a subsidiary object. It controls whole db and `cursor` object.
+<details>
+    <summary>Can I Contribute</summary>
+Feel free to fork, contribure and even change big parts of code, rewriting logic and etc. One day this library might get big!
+</details>
 
----
+<details>
+    <summary>Can I use it in my project</summary>
 
-## Table object
+It's open-source, free for use in any project.
+</details>
 
-You can create Table object through [`db.Table(name)`](manuals.md/#) or [`rq.postgresqlConnection()`](manuals.md/#postgresqlConnection)
-
-<br>
-
-Table object used for controlling data in the table through methods `fetchAll` , `fetchMany`, `fetchOne`
-, `insert`, `update`
-
----
+<details>
+    <summary>For FAANG companies</summary>
+Certainly, I would like to work in your company. With great passion!
+</details>

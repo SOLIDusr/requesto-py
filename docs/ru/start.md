@@ -10,16 +10,25 @@
 
 # Установка
 
-* Клонируйте репозиторий
+**Как клонировать репозиторий**
+
+<details>
+<summary>GitHub</summary>
 
 ```shell
 git clone https://github.com/SOLIDusr/requesto-py.git
 ```
 
-* pip/pip3 installer
+</details>
+
+<details>
+<summary>pip3</summary>
+
 ```shell
 pip3 install requesto-py
 ```
+
+</details>
 
 ## Базовый концепт работы
 
@@ -30,19 +39,20 @@ pip3 install requesto-py
 
 ```python
 import requesto as rq
-dataBase: rq.dataBase = rq.sqliteConnection(dbname="database.db")
-data: rq.Table =  rq.Table("data", dataBase.cursor)
-data.insert("name, ifPresent, age", "'John', true, 21")
-print(data.returnAll("id"))
+
+#  Обозначаем объект базы данных с помощью класса SqliteDb
+dataBase = rq.SqliteDb(filename="database.db")
+#  Обозначаем объект таблицы
+userData = rq.Table("userData", dataBase.cursor, schemaName="main")
 ```
 
-А как же это бы выглядело в sqlite3?
 ```python
-import sqlite3
-connection = sqlite3.connect("database")
-cursor = connection.cursor()
-cursor.execute("""INSERT INTO userdata (name, ifPresent, age) VALUES ('Weak', false, 38)""")
-connection.commit()
-print(cursor.execute("""SELECT * FROM userData""").fetchall())
+import requesto as rq
+
+dataBase = rq.PostgresDb(host="localhost", port="5432", username="NaroMori", dbName="MainDb")
+userData = rq.Table("userData", dataBase.cursor, schemaName="public")
 ```
-Слишком много SQL для простенького запроса.
+
+Вся информация о функциях и классах может быть найдена [тут](./manuals.md) или в док строке в самом коде.
+
+Все дальнейшие манипуляции будут производится с помощью объектов `database` и `userData`.

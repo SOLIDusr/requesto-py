@@ -1,4 +1,15 @@
 # Changelog
+### `v-1.2-0`
+This is a final version until framework change or something unexpected happens.
+1. Database now has a public variable: tables - list of every table in database.
+(Useful to handle errors if table was not found to prevent crashes)
+2. Table object now has a columns variable which is also a list. Obviously, it contains list of 
+columns to get.
+3. Two previous variables work for postgresql as stable and Use-At-Own-Risk in sqlite.
+4. Code has been cleaned.
+5. User class has been added if you want to quickly open multiple connections.
+
+
 ### `v1.1.0-a`
 
 1. Removed readthedocs.org as I exhausted of writing this in rts and convertors from md to rst are bad.

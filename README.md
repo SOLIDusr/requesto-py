@@ -1,7 +1,7 @@
 # requesto-py
 Lightweight python wrapper library for psycopg2 and sqlite3 databases without tons of useless code. 
 
-```current release: v1.1.0```
+```current release: v1.2.0-r```
 
 ![GitHub top language](https://img.shields.io/github/languages/top/SolidUsr/requesto-py)
 ![GitHub](https://img.shields.io/github/license/SolidUsr/requesto-py)
@@ -11,8 +11,7 @@ Lightweight python wrapper library for psycopg2 and sqlite3 databases without to
 
 ## Ways of Installation (Linux/Windows)
 
-Before installation make sure to install all dependencies! No-dependencies branch [\*click\*](https://github.com/SOLIDusr/requesto-py/tree/no-dependencies) coming soon!
-
+Before installation make sure to install all dependencies!
 1. Clone repo 
 ```git clone https://github.com/SOLIDusr/requesto-py.git```
 

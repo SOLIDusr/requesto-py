@@ -2,9 +2,9 @@
 
 ## Справка по версии модуля
 
----
 
-Есть два способа вывести версию библиотеки. [Здесь](./versions) описан принцип изменения версий
+
+Есть два способа вывести версию библиотеки.
 
 ```python
 requesto.version_info
@@ -18,16 +18,14 @@ requesto.version_info
 requesto.__version__
 ```
 
-Строковое представление версии. Например '1.0.0rc1'. Это основано на PEP 440.
+Строковое представление версии. Например '1.2.0r'. Это основано на PEP 440.
 
 ## requesto
 
----
+### Основные классы
 
-Методы:
-
-- [`def` `postgresqlConnect`](#postgresqlConnect)
-- [`def` `sqliteConnect`](#sqliteConnect)
+- [`class` `PostgresDb`](#postgresdb)
+- [`def` `SqliteDb`](#sqlitedb)
 
 
 ## DataBase
@@ -68,7 +66,7 @@ requesto.__version__
 - [`def` `update`](#update)
 
 
-### `` def postgresqlConnect(host, port, dbName, userName) -> DataBase``
+### `` class PostgresDb``
 
 Возвращает объект базы данных `requesto.DataBase`
 
@@ -79,7 +77,7 @@ requesto.__version__
 * userName( str ) ( Обязательно ) - Имя пользователя базы данных
 
 
-### `` def sqliteConnect(ifMemory = False, filename = None) -> DataBase | DataBase.WrongParamError``
+### `` class SqliteDb``
 
 Возвращает объект базы данных `requesto.DataBase`
 
