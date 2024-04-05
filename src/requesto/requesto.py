@@ -19,11 +19,7 @@ DEALINGS IN THE SOFTWARE.
 try:
     import psycopg2 as pg
 except ImportError:
-    # pip.main is going to be deleted, probably. Might be a problem
-    from pip import main
-
-    main(['install', 'psycopg2==2.9.9'])
-    import psycopg2 as pg
+    raise ImportError("Psycopg2 is not installed. Please install it using pip.")
 import sqlite3 as sqlt
 import traceback
 import warnings
@@ -32,15 +28,15 @@ import warnings
 That is a horrible solution right there! Do not even do that in your code.
 """
 
-_cursor_ = pg._psycopg.cursor
-_connection_ = pg._psycopg.connection
-
 
 class DataBase:
     """
     DataBase class [:class:`.DataBase`]: Represents the database object.
     """
 
+    _cursor_ = pg._psycopg.cursor
+    _connection_ = pg._psycopg.connection
+    
     def __init__(self, connection, schemaName: str = "public"):
         self.connection: DataBase.Connection = DataBase.Connection(connection)
         self.cursor: _cursor_ | sqlt.Cursor = self.connection.__getCursor__()
@@ -148,7 +144,8 @@ class DataBase:
             execute custom query
             :param request: :class:`str` - provided request to proceed
             """
-            assert request is not None
+            if request is not None:
+                raise DataBase.WrongParamError()
             self.__cursor.execute(f"""{request}""")
 
         def __paramsCheck(self, param, where):
@@ -157,9 +154,9 @@ class DataBase:
             elif param is not None and where is None:
                 self.__cursor.execute(f"""SELECT {param} FROM {self.__name}""")
             elif param is None and where is not None:
-                self.__cursor.execute(f"""SELECT * FROM {self.__name} WHERE """ + where)
+                self.__cursor.execute(f"""SELECT * FROM {self.__name} WHERE {where}""")
             elif param is not None and where is not None:
-                self.__cursor.execute(f"""SELECT {param} FROM {self.__name} WHERE """ + where)
+                self.__cursor.execute(f"""SELECT {param} FROM {self.__name} WHERE {where}""")
             else:
                 raise DataBase.WrongParamError
 

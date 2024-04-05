@@ -1,36 +1,17 @@
+import sqlite3 as sqlt
 from .requesto import DataBase
 from .User import User
 from .Exceptions import *
 
-try:
-    import sqlite3 as sqlt
-except ImportError:
-    from warnings import warn
-
-    warn("Failed to import sqlite3 module")
-    exit(-1)
-
-
 class SqliteDb(DataBase):
-    def __init__(self, databaseFile: str = None, ifMemory: bool = False, schemaName="main"):
-        if not databaseFile and not ifMemory:
-            from warnings import warn
-            warn("No database file provided!")
-            raise ConnectionDetailsMissingException()
-        connection = sqlt.connect(f"{databaseFile}")
-
-        if not databaseFile and ifMemory:
-            connection = sqlt.connect(":memory:")
-
+    def __init__(self, connection, schemaName="main"):
         super().__init__(connection, schemaName=schemaName)
         self.__schemaName = schemaName
         self.tables = self.__getTables()
 
     def __getTables(self) -> list:
-        self.cursor.execute(f"""SELECT name FROM sqlite_master WHERE type='table'""")
-        listOfTables = [self.Table(tableName[0], self.cursor, self.__schemaName) for tableName in self.cursor.fetchall()
-                        if tableName != ""]
-        return listOfTables
+        self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+        return [self.Table(tableName[0], self.cursor, self.__schemaName) for tableName in self.cursor.fetchall()]
 
     class Connection(DataBase.Connection):
         def __init__(self, connection):
