@@ -2,6 +2,11 @@
 
 ## Справка по версии модуля
 
+-----
+
+!WORK IN PROGRESS!
+
+-----
 
 
 Есть два способа вывести версию библиотеки.
@@ -24,11 +29,12 @@ requesto.__version__
 
 ### Основные классы
 
-- [`class` `PostgresDb`](#postgresdb)
-- [`def` `SqliteDb`](#sqlitedb)
+- [`class` `DataBase`](####DataBase)
+- [`class` `Connection`](####Connection)
+- [`class` `PostgresDb`](####postgresdb)
+- [`class` `SqliteDb`](####sqlitedb)
 
-
-## DataBase
+#### `class DataBase`
 
 ---
 
@@ -41,7 +47,7 @@ requesto.__version__
 - [`Attribute` `cursor: psycopg2.cursor | sqlite3.Cursor`](#cursor)
 
 
-## Connection
+#### `class Connection`
 
 ---
 
@@ -55,7 +61,7 @@ requesto.__version__
 - [`def` `cancel`](#cancel)
 - [`def` `getTransactionStatus`](#getTransactionStatus)
 
-## Table
+#### `class Table`
 
 ---
 
@@ -65,75 +71,78 @@ requesto.__version__
 - [`def` `insert`](#insert)
 - [`def` `update`](#update)
 
-
-### `` class PostgresDb``
+#### `class PostgresDb`
 
 Возвращает объект базы данных `requesto.DataBase`
 
 Параметры:
-* host( str ) ( Обязательно ) - Хост сервера базы данных
-* port( str ) ( Обязательно ) - Порт сервера базы данных
-* dbName( str ) ( Обязательно ) - Название базы данных
-* userName( str ) ( Обязательно ) - Имя пользователя базы данных
+* `host( str )` - Хост сервера базы данных
+* `port( str )` - Порт сервера базы данных
+* `dbName( str )` - Название базы данных
+* `userName( str )` - Имя пользователя базы данных
 
-
-### `` class SqliteDb``
+#### `` class SqliteDb``
 
 Возвращает объект базы данных `requesto.DataBase`
 
+Параметры:
+* `databaseFile (str) = None` - Имя файла базы данных
+* `ifMemory (bool) = False` - Работает ли база данных в оперативной памяти
+* `schemaName (str) = "main"` - Имя схемы с которой будет работа
 
-### `` class WrongParamError``
-
-
-### `` class DataBase``
-
-
-### `` Attribute connection``
+#### `` class ConnectionDetailsMissingException``
 
 
-### `` Attribute cursor``
+
+#### `` class DataBase``
 
 
-### `` def autocommit(state = True) -> bool``
+#### `` Attribute connection``
 
 
-### `` def close() -> bool``
+#### `` Attribute cursor``
 
 
-### `` def commit() -> bool``
+#### `` def autocommit(state = True) -> bool``
 
 
-### `` def reset()``
+#### `` def close() -> bool``
 
 
-### `` def isClosed() -> int``
+#### `` def commit() -> bool``
 
 
-### `` def __getCursor__() -> pg.cursor | sqlt.Cursor``
+#### `` def reset()``
 
 
-### `` def getAutocommit()``
+#### `` def isClosed() -> int``
 
 
-### `` def cancel() -> None``
+#### `` def __getCursor__() -> pg.cursor | sqlt.Cursor``
 
 
-### `` def getTransactionStatus()``
+#### `` def getAutocommit()``
 
 
-### `` class Table``
+#### `` def cancel() -> None``
 
 
-### `` def fetchAll(param = None, where = None) -> list``
+#### `` def getTransactionStatus()``
 
 
-### `` def fetchMany(param = None, where = None) -> list``
+#### `` class Table``
 
 
-### `` def fetchOne(param = None, where = None) -> tuple``
+#### `` def fetchAll(param = None, where = None) -> list``
 
 
-### `` def insert() -> DataBase``
+#### `` def fetchMany(param = None, where = None) -> list``
 
 
-### `` def update() -> DataBase``
+#### `` def fetchOne(param = None, where = None) -> tuple``
+
+
+#### `` def insert() -> DataBase``
+
+
+#### `` def update() -> DataBase``

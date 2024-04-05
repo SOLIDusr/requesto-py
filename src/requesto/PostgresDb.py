@@ -4,10 +4,7 @@ from .User import User
 try:
     import psycopg2 as pg
 except ImportError:
-    from warnings import warn
-
-    warn("Failed to import psycopg2")
-    exit(-1)
+    raise ImportError("Psycopg2 is not installed. Please install it using pip.")
 
 
 class PostgresDb(DataBase):
@@ -30,9 +27,7 @@ class PostgresDb(DataBase):
                 database=dbName,
                 port=port)
         else:
-            from warnings import warn
-            warn("Database details were not provided!")
-            raise
+            raise ConnectionDetailsMissingException("Database details were not provided!")
 
         super().__init__(connection, schemaName=schemaName)
         self.__schemaName = schemaName
