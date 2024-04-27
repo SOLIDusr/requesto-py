@@ -1,6 +1,6 @@
 from .requesto import DataBase
 from .User import User
-
+from .Exceptions import ConnectionDetailsMissingException
 try:
     import psycopg2 as pg
 except ImportError:
